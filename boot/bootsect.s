@@ -230,7 +230,7 @@ ok1_read:
 	seg cs
 	mov ax,sectors
 	sub ax,sread	! ax = 扇区总数-已读扇区数 al为要读取的扇区数量
-	mov cx,ax		! cl 为要读的起始扇区编号
+	mov cx,ax
 	shl cx,#9		! shl 逻辑左移9位，cx *= 512
 	add cx,bx		! cx += bx 计算本次读取的结束位置
 	jnc ok2_read	! 如果cx > 0x10000，溢出CF=1，全部读完会超出本段的范围，需要按照0x10000-bx来计算读取扇区数量
@@ -253,7 +253,6 @@ ok2_read:
 ok4_read:
 	mov head,ax		! head = 1
 	xor ax,ax		! 已读扇区数ax=0
-! 本段读完，开始读下一段(64KB)
 ! sread < sectors，不需要更换磁头和磁道
 ok3_read:
 	mov sread,ax	! sread = (sread == sectors) ? 0 : sread
